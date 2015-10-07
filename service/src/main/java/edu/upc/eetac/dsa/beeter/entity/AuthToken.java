@@ -1,10 +1,11 @@
 package edu.upc.eetac.dsa.beeter.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.glassfish.jersey.linking.InjectLinks;
-import sun.plugin.javascript.navig.Link;
+import javax.ws.rs.core.Link;
 
 import java.util.List;
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 /**
  * Created by SergioGM on 05.10.15.
  */

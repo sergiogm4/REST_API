@@ -1,5 +1,6 @@
 package edu.upc.eetac.dsa.beeter.dao;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.upc.eetac.dsa.beeter.auth.UserInfo;
 import edu.upc.eetac.dsa.beeter.entity.AuthToken;
 import edu.upc.eetac.dsa.beeter.entity.Role;
@@ -8,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 
 /**
  * Created by SergioGM on 05.10.15.

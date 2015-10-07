@@ -1,5 +1,8 @@
 package edu.upc.eetac.dsa.beeter.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 /**
  * Created by SergioGM on 05.10.15.
  */
