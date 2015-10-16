@@ -4,10 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.upc.eetac.dsa.beeter.entity.Sting;
 import edu.upc.eetac.dsa.beeter.entity.StingCollection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 /**
  * Created by SergioGM on 05.10.15.
@@ -79,14 +77,19 @@ public class StingDAOImpl implements StingDAO {
     }
 
     @Override
-    public StingCollection getStings() throws SQLException {
+    public StingCollection getStings(long timestamp, boolean before) throws SQLException {
         StingCollection stingCollection = new StingCollection();
 
         Connection connection = null;
         PreparedStatement stmt = null;
         try {
             connection = Database.getConnection();
-            stmt = connection.prepareStatement(StingDAOQuery.GET_STINGS);
+
+            if(before)
+                stmt = connection.prepareStatement(StingDAOQuery.GET_STINGS);
+            else
+                stmt = connection.prepareStatement(StingDAOQuery.GET_STINGS_AFTER);
+            stmt.setTimestamp(1, new Timestamp(timestamp));
 
             ResultSet rs = stmt.executeQuery();
             boolean first = true;
@@ -94,7 +97,6 @@ public class StingDAOImpl implements StingDAO {
                 Sting sting = new Sting();
                 sting.setId(rs.getString("id"));
                 sting.setUserid(rs.getString("userid"));
-                sting.setCreator(rs.getString("fullname"));
                 sting.setSubject(rs.getString("subject"));
                 sting.setCreationTimestamp(rs.getTimestamp("creation_timestamp").getTime());
                 sting.setLastModified(rs.getTimestamp("last_modified").getTime());
@@ -160,4 +162,6 @@ public class StingDAOImpl implements StingDAO {
             if (connection != null) connection.close();
         }
     }
+
+
 }
